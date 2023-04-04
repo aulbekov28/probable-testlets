@@ -22,7 +22,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Testlet.Models\Testlet.Models.csproj" />
+      <ProjectReference Include="..\TestletRandomizer.Models\TestletRandomizer.Models.csproj" />
     </ItemGroup>
 
 </Project>

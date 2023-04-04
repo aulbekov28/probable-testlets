@@ -1,6 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Testlet.Models", "Testlet.Models\Testlet.Models.csproj", "{3CB6CA4D-7870-43D2-A054-6AC9B5E04D07}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestletRandomizer.Models", "TestletRandomizer.Models\TestletRandomizer.Models.csproj", "{3CB6CA4D-7870-43D2-A054-6AC9B5E04D07}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestletRandomizer.UnitTests", "TestletRandomizer.UnitTests\TestletRandomizer.UnitTests.csproj", "{E3351FD7-88C7-42D4-B477-6E793B86DF5A}"
 EndProject

@@ -4,6 +4,7 @@ namespace TestletRandomizer.UnitTests;
 
 public class Helpers
 {
+    // Could use autofixture
     internal static List<Item> GetRandomizeInputItems()
     {
         var operationalItems = new List<Item>(Consts.NumOfOperational);

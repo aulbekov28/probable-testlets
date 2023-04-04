@@ -37,7 +37,7 @@ public class Testlet
             if (index < operationalItems.Count)
             {
                 randomizedItems.Add(operationalItems[index]);
-                operationalItems.RemoveAt(index);
+                operationalItems.RemoveAt(index); // could try to swap with the last element to avoid resizing
             }
             else
             {
