@@ -2,7 +2,7 @@ using TestletRandomizer.Models;
 
 namespace TestletRandomizer.UnitTests;
 
-public class UnitTest1
+public class TestsletTests
 {
     [Fact]
     public void Randomize_Should_Return_Same_Input_Length()
@@ -30,7 +30,7 @@ public class UnitTest1
         var randomizedItems = testlet.Randomize();
         
         // Assert
-        Assert.Equal(Consts.NumOfPretestsAtTheBeginning, randomizedItems.Take(2).Count(x => x.ItemType == ItemTypeEnum.Pretest));
+        Assert.Equal(Constants.NumOfPretestsAtTheBeginning, randomizedItems.Take(2).Count(x => x.ItemType == ItemTypeEnum.Pretest));
     }
     
     [Fact]
@@ -59,7 +59,7 @@ public class UnitTest1
         var testlet = new Testlet(testletId, items);
         
         // Act
-        var randomizedItems = testlet.Randomize();
+        _ = testlet.Randomize();
         
         // Assert
         Assert.Equal(originalItems, items);
@@ -93,8 +93,8 @@ public class UnitTest1
         }
         
 
-        Assert.Equal(Consts.NumOfPretest - Consts.NumOfPretestsAtTheBeginning, pretestCount); // check that there are 4 pretest items in the list
-        Assert.Equal(Consts.NumOfOperational, operationalCount); 
+        Assert.Equal(Constants.NumOfPretest - Constants.NumOfPretestsAtTheBeginning, pretestCount);
+        Assert.Equal(Constants.NumOfOperational, operationalCount); 
     }
     
     [Fact]
@@ -112,5 +112,55 @@ public class UnitTest1
             Assert.NotEqual(previousOrder, randomizedOrder); // review 
             previousOrder = randomizedOrder;
         }
+    }
+    
+    [Fact]
+    public void CreateTestlet_Should_Not_Throw_Exception()
+    {
+        // Arrange
+        var testletId = "testlet1";
+        var items = Helpers.GetRandomizeInputItems();
+
+        // Act
+        var exception = Record.Exception(() => new Testlet(testletId, items));
+        
+        // Assert
+        Assert.Null(exception);
+    }
+    
+        
+    [Fact]
+    public void CreateTestlet_When_Incorrect_Input_Lenght_Should_Throw_Exception()
+    {
+        // Arrange
+        var testletId = "testlet1";
+        var items = Helpers.GetRandomizeInputItems();
+        items.Add(new Item());
+        
+        // Act
+        var exception = Record.Exception(() => new Testlet(testletId, items));
+        
+        // Assert
+        Assert.NotNull(exception);
+        Assert.Contains("Incorrect length", exception.Message);
+    }
+    
+    [Fact]
+    public void CreateTestlet_When_Incorrect_Input_Types_Should_Throw_Exception()
+    {
+        // Arrange
+        var testletId = "testlet1";
+        var items = Helpers.GetRandomizeInputItems();
+        foreach (var item in items)
+        {
+            item.ItemType = ItemTypeEnum.Pretest;
+        }
+        
+        // Act
+        var exception = Record.Exception(() => new Testlet(testletId, items));
+        
+        // Assert
+        Assert.NotNull(exception);
+        Assert.Contains("Incorrect number of items types", exception.Message);
     }
 }

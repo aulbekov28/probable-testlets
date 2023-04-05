@@ -4,34 +4,35 @@ public class Testlet
 {
     public readonly string TestletId;
     private readonly List<Item> Items;
+    
     public Testlet(string testletId, List<Item> items)
     {
+        ValidateItems(items);
         TestletId = testletId;
         Items = items;
     }
     
     // Items private collection has 6 Operational and 4 Pretest Items. Randomize the order of these items as per the requirement (with TDD)
     // The assignment will be reviewed on the basis of – Tests written first, Correct logic, Well structured & clean readable code.
+    // If taken into account that number of tests is not big then we could ignore the performance side of the problem for now
+    // In this case O(n) time complexity and O(n) space complexity 
     public List<Item> Randomize()
     {
-        //If taken into account that number of tests is not big then we could ignore the performance side of the problem for now
-        //In this case O(n) time complexity and O(n) space complexity 
-        
         var pretestItems = Items.Where(i => i.ItemType == ItemTypeEnum.Pretest).ToList();
         var operationalItems = Items.Where(i => i.ItemType == ItemTypeEnum.Operational).ToList();
-        var randomizedItems = new List<Item>(Consts.NumOfTest);
+        var randomizedItems = new List<Item>(Constants.NumOfTest);
         
         var random = new Random();
         
-        // Randomly choose from pretests by index
-        for (var i = 0; i < Consts.NumOfPretestsAtTheBeginning; i++)
+        // Randomly choose 2 items from pretests by random index
+        for (var i = 0; i < Constants.NumOfPretestsAtTheBeginning; i++)
         {
             var index = random.Next(pretestItems.Count);
             randomizedItems.Add(pretestItems[index]);
             pretestItems.RemoveAt(index);
         }
         
-        for (var i = 0; i < Consts.NumOfTest - Consts.NumOfPretestsAtTheBeginning; i++)
+        for (var i = 0; i < Constants.NumOfTest - Constants.NumOfPretestsAtTheBeginning; i++)
         {
             var index = random.Next(operationalItems.Count + pretestItems.Count);
             if (index < operationalItems.Count)
@@ -48,39 +49,17 @@ public class Testlet
         
         return randomizedItems;
     }
-}
 
-public class Item
-{
-    public string ItemId;
-    public ItemTypeEnum ItemType;
-
-    public override bool Equals(object? obj)
+    private static void ValidateItems(List<Item> items)
     {
-        if (obj == null || GetType() != obj.GetType()) {
-            return false;
+        if (items.Count != Constants.NumOfTest)
+        {
+            throw new Exception("Incorrect length");
         }
 
-        var other = (Item)obj;
-        return ItemId == other.ItemId;
-    }
-
-    public override int GetHashCode()
-    {
-        return ItemId.GetHashCode();
+        if (Constants.NumOfPretest != items.Count(x => x.ItemType == ItemTypeEnum.Pretest))
+        {
+            throw new Exception("Incorrect number of items types");
+        } 
     }
 }
-
-public enum ItemTypeEnum
-{
-    Pretest = 0,
-    Operational = 1
-}
-
-public static class Consts
-{
-    public const int NumOfTest = 10;
-    public const int NumOfPretest = 4;
-    public const int NumOfPretestsAtTheBeginning = 2;
-    public const int NumOfOperational = NumOfTest - NumOfPretest;
-} 
